@@ -1,12 +1,16 @@
-const child = document.createElement('div');
-child.style.position = 'fixed';
-child.style.backgroundColor = 'green';
-child.style.height = '300px';
-child.style.width = '300px';
-child.style.top = '20px';
-child.style.left = '20px';
+import { findOpElement } from './inspector';
 
 export const decorate = target => {
-	console.log('decorating target!', target);
-	target.appendChild(child);
+	const genderNames = ['enby', 'unknown'];
+	const opTemplate = findOpElement(target);
+
+	if (!!opTemplate) {
+		genderNames.forEach(name => {
+			const newOp = opTemplate.cloneNode();
+
+			newOp.innerText = name;
+
+			target.insertBefore(newOp, opTemplate);
+		});
+	};
 };

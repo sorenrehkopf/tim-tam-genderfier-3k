@@ -1,5 +1,20 @@
+import { findGenderElement } from './inspector.js';
 import { decorate } from './decorator.js';
 
-const target = document.querySelector('div');
 
-decorate(target);
+let initialized = false;
+
+const init = () => {
+	if (!initialized) {
+		const target = findGenderElement();
+
+		if (target) {
+			decorate(target);
+
+			initialized = true;
+		}
+	}
+};
+
+document.addEventListener('DOMContentLoaded', init);
+init();
