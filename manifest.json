@@ -2,6 +2,10 @@
 	"manifest_version": 3,
 	"name": "Gender Extender",
 	"version": "1.0.0",
+	"action": {
+		"default_title": "Gender Extender!",
+		"default_popup": "index.html"
+	},
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
