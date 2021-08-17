@@ -25,6 +25,10 @@ module.exports = {
           loader: 'vue-loader',
         },
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   resolve: {
@@ -32,7 +36,10 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-    new HtmlWebpackPlugin({ template: './src/popup.html' }),
+    new HtmlWebpackPlugin({
+      template: './src/popup.html',
+      chunks: ['popup'],
+    }),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin({
       patterns: [
