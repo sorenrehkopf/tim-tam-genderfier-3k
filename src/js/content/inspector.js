@@ -1,12 +1,6 @@
-export const findGenderElement = () => {
-	const el = document.querySelector('[name="Gender"]');
+export const findGenderContainer = () => {
+	const frameDoc = document.querySelector('iframe').contentWindow.document;
+	const el = frameDoc.querySelector('.gender-territories-container>:first-child');
 
 	return el;
 }
-
-export const findOpElement = genderElement => {
-	const el = genderElement.options[genderElement.options.length - 1];
-
-	return el;
-}
-

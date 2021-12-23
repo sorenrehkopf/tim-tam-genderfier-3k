@@ -1,20 +1,16 @@
-import { findGenderElement } from './inspector.js';
+import { findGenderContainer } from './inspector.js';
 import { decorate } from './decorator.js';
 
 
-let initialized = false;
+const watchForGenderContainer = () => {
+	const genderContainer = findGenderContainer();
 
-const init = () => {
-	if (!initialized) {
-		const target = findGenderElement();
-
-		if (target) {
-			decorate(target);
-
-			initialized = true;
-		}
+	if (genderContainer) {
+		initialObserver.disconnect();
+		decorate(genderContainer);
 	}
-};
+}
 
-document.addEventListener('DOMContentLoaded', init);
-init();
+const initialObserver = new MutationObserver(watchForGenderContainer);
+
+initialObserver.observe(document.body, { childList: true })

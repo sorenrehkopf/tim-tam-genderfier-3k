@@ -1,6 +1,6 @@
 {
 	"manifest_version": 3,
-	"name": "Gender Extender",
+	"name": "Tim Tam Genderfier 3k",
 	"version": "1.0.0",
 	"action": {
 		"default_title": "Gender Extender!",
@@ -8,7 +8,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["<all_urls>"],
+			"matches": ["https://*.tiktok.com/analytics"],
 			"css": [],
 			"js": ["content.js"]
 		}
