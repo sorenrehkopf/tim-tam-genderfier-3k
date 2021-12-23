@@ -1,16 +1,13 @@
-import random from 'lodash/random';
-
 const labelOps = [
 	['Gender is a construct', 'Hail Satan'],
 	['Be gay', 'Do Crimes'],
 	['Not a phase', 'MOM'],
 	['Humans', 'Other humans'],
 	['Panic', 'Disco'],
-	['Chemical', 'Romance'],
-	['Danny Devito', 'Ian McKellen'],
+	['Chemical', 'Romance']
 ];
 
-const randomIndex = random(0, labelOps.length -1);
+const randomIndex = Math.round(Math.random() * labelOps.length -1);
 const labelTexts = labelOps[randomIndex];
 
 export const decorate = target => {
