@@ -5,16 +5,23 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: { content: './src/js/content/index.js', popup: './src/js/popup/index.js' },
+  entry: { content: './src/index.ts' },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
+      },
       {
         test: /\.js?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: ['@babel/preset-env']
           },
         },
       },
@@ -32,15 +39,10 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.tsx', '.ts'],
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-    new HtmlWebpackPlugin({
-      template: './src/popup.html',
-      chunks: ['popup'],
-    }),
-    new VueLoaderPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         { from: './manifest.json' },
