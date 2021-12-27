@@ -1,7 +1,7 @@
 import { findGenderContainer } from './inspector';
 import { decorate } from './decorator';
 
-const watchForGenderContainer = () => {
+export const watchForGenderContainer = ():void => {
 	const genderContainer:HTMLElement = findGenderContainer();
 
 	if (genderContainer) {
