@@ -4,7 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "webpack --watch --config ./webpack/webpack.dev.js",
-    "build": "webpack --config ../webpack/webpack.prod.js",
+    "build": "webpack --config ./webpack/webpack.prod.js",
     "test": "jest"
   },
   "license": "MIT",
