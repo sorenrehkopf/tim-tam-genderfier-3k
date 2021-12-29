@@ -10,36 +10,37 @@ const constructMockItem = () => {
 	item.appendChild(percent);
 	item.appendChild(label);
 
-	return item
+	return [item, label]
 };
 
 const mockTarget = document.createElement('div');
 const mockChartPieInfo = document.createElement('div');
-const item1 = constructMockItem();
-const item2 = constructMockItem();
+const [item1, label1] = constructMockItem();
+const [item2, label2] = constructMockItem();
 mockChartPieInfo.classList.add('chart-pie-info');
 mockChartPieInfo.appendChild(item1);
 mockChartPieInfo.appendChild(item2);
 mockTarget.appendChild(mockChartPieInfo);
+document.body.appendChild(mockTarget);
 
 const mockLabelOps = ['mockOp1', 'mockOp2'];
 
 jest.mock('../src/label-ops', () => ({
 	__esModule: true,
-	default:['mockOp1', 'mockOp2']
+	default: [['mockOp1', 'mockOp2']]
 }));
 
-beforeEach(() => {
-	// item2.innerText = '';
-	// item2.innerText = '';
-	console.log('in the test', mockTarget.innerHTML)
+beforeAll(() => {
+	label1.innerText = "";
+	label2.innerText = "";
 	decorate(mockTarget);
-});
+})
+
 
 it('replaces the text for the first item with the first labelOP', () => {
-	expect(item1.innerText).toEqual(mockLabelOps[0]);
+	expect(label1.innerText).toEqual(mockLabelOps[0])
 });
 
 it('replaces the text for the second item with the second labelOP', () => {
-	expect(item2.innerText).toEqual(mockLabelOps[1]);
+	expect(label2.innerText).toEqual(mockLabelOps[1])
 });
