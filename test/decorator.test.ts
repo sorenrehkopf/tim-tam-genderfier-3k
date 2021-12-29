@@ -1,4 +1,3 @@
-// import labelOps from '../src/label-ops';
 import { decorate } from '../src/decorator';
 
 const constructMockItem = () => {
