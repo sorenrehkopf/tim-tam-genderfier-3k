@@ -22,11 +22,13 @@ describe('when the iframe and the gender container are both present', () => {
 
 	beforeAll(() => {
 		const iframe = document.createElement('iframe');
+		document.body.appendChild(iframe);
+
+		const frameDoc:Document = document.querySelector('iframe').contentWindow.document;
 		const topLevelContainer = document.createElement('div');
 		topLevelContainer.classList.add('gender-territories-container')
 		topLevelContainer.appendChild(genderContainer);
-		iframe.appendChild(topLevelContainer);
-		document.body.appendChild(iframe);
+		frameDoc.body.appendChild(topLevelContainer);
 	});
 
 	it('returns the gender container', () => {
