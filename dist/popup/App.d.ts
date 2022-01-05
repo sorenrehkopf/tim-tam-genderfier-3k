@@ -1,4 +1,11 @@
 import * as React from "react";
-export default class App extends React.Component<{}> {
+declare type AppState = {
+    labelOps: string[][];
+};
+export default class App extends React.Component<{}, AppState> {
+    state: AppState;
+    removeLabelOp: (i: number) => void;
+    addLabelOp: (i: number) => void;
     render(): JSX.Element;
 }
+export {};
