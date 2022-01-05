@@ -1,11 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: { content: './src/index.ts' },
+  entry: { content: './src/content/index.ts', popup: './src/popup/index.tsx' },
   module: {
     rules: [
       {
@@ -25,17 +24,6 @@ module.exports = {
           },
         },
       },
-      {
-        test: /\.vue$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'vue-loader',
-        },
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
     ],
   },
   resolve: {
@@ -46,6 +34,10 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    new HtmlWebpackPlugin({
+      template: './src/popup/index.html',
+      chunks: ['popup'],
+    }),
     new CopyWebpackPlugin({
       patterns: [
         { from: './manifest.json' },

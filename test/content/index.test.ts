@@ -1,4 +1,4 @@
-import { decorate } from '../src/decorator';
+import { decorate } from '../../src/content/decorator';
 
 const mutationObserverDisconnectMock = jest.fn();
 
@@ -9,7 +9,7 @@ class MutationObserverMock extends MutationObserver {
 }
 
 jest.mock(
-	'../src/inspector',
+	'../../src/content/inspector',
 	() => {
 		const mockFindGenderContainer = jest.fn()
 			.mockReturnValueOnce(null)
@@ -23,13 +23,13 @@ jest.mock(
 		}
 	}
 )
-jest.mock('../src/decorator')
+jest.mock('../../src/content/decorator')
 
 let watchForGenderContainer : () => void;
 
 beforeAll(async () => {
 	window.MutationObserver = MutationObserverMock;
-	const index = await import('../src/index')
+	const index = await import('../../src/content/index')
 	watchForGenderContainer = index.watchForGenderContainer;
 })
 

@@ -1,4 +1,4 @@
-import { findGenderContainer } from '../src/inspector';
+import { findGenderContainer } from '../../src/content/inspector';
 
 describe('when the iframe is not present', () => {
 	it('returns null', () => {

@@ -1,4 +1,4 @@
-import labelOps from './label-ops';
+import labelOps from '../label-ops';
 
 const randomIndex:number = Math.round(Math.random() * (labelOps.length -1));
 const labelTexts:string[] = labelOps[randomIndex];

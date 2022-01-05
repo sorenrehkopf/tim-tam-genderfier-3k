@@ -7,6 +7,10 @@
 	"host_permissions": [
 		"https://*.tiktok.com/analytics*"
 	],
+	"action": {
+		"default_title": "Tim Tam Genderfier 3k",
+		"default_popup": "index.html"
+	},
 	"content_scripts": [
 		{
 			"matches": ["https://*.tiktok.com/analytics*"],

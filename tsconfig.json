@@ -9,7 +9,8 @@
     "allowJs": true,
     "moduleResolution": "node",
   },
-  "exclude": [
-    "./test/"
-  ]
+  "files": [
+    "./src/content/index.ts",
+    "./src/popup/index.tsx",
+  ],
 }

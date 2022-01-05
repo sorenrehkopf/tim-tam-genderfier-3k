@@ -1,4 +1,4 @@
-import { decorate } from '../src/decorator';
+import { decorate } from '../../src/content/decorator';
 
 const constructMockItem = () => {
 	const item = document.createElement('div');
@@ -24,7 +24,7 @@ document.body.appendChild(mockTarget);
 
 const mockLabelOps = ['mockOp1', 'mockOp2'];
 
-jest.mock('../src/label-ops', () => ({
+jest.mock('../../src/label-ops', () => ({
 	__esModule: true,
 	default: [['mockOp1', 'mockOp2']]
 }));
