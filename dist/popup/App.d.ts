@@ -4,7 +4,7 @@ declare type AppState = {
 };
 export default class App extends React.Component<{}, AppState> {
     state: AppState;
-    removeLabelOp: (i: number) => void;
+    removeLabelOp: (targetOp: string[]) => void;
     addLabelOp: (i: number) => void;
     render(): JSX.Element;
 }
