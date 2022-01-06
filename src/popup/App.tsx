@@ -1,12 +1,14 @@
 import * as React from "react";
 import { getLabelOps } from '../label-ops';
 import {
+	Divider,
 	Icon,
 	Input,
 	List,
 	ListItem,
 	ListItemIcon,
-	ListItemText
+	ListItemText,
+	Typography
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 
@@ -29,17 +31,20 @@ export default class App extends React.Component <{}, AppState> {
 		})
 	};
 
-	addLabelOp = (i: number): void => {
+	addLabelOp = (): boolean => {
+		alert('yeah!!');
 
+		return false;
 	};
 
   render() {
-  	const { removeLabelOp, state: { labelOps } } = this;
+  	const { addLabelOp, removeLabelOp, state: { labelOps } } = this;
 
     return (
       <div>
-        <h3>Tim Tam Genderfier 3k</h3>
-        <h4>Label pairs</h4>
+        <Typography variant="h4">Tim Tam Genderfier 3k</Typography>
+        <Divider />
+        <Typography variant="h5">Label pairs</Typography>
         <List>
         {
         	labelOps.map((op: string[]): JSX.Element => (
@@ -52,7 +57,9 @@ export default class App extends React.Component <{}, AppState> {
         	))
         }
         </List>
-        <Input placeholder="New,Genders!" />
+        <form onSubmit={addLabelOp}>
+        	<Input placeholder="New,Genders!" />
+        </form>
       </div>
     );
   }
