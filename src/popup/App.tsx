@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getLabelOps } from '../label-ops';
+import getLabelOps from '../utils/get-label-ops';
 import {
 	Button,
 	Divider,

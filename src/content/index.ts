@@ -1,3 +1,4 @@
+import { enabledStorageKey } from '../consts';
 import { findGenderContainer } from './inspector';
 import { decorate } from './decorator';
 
@@ -12,4 +13,8 @@ export const watchForGenderContainer = ():void => {
 
 const initialObserver:MutationObserver = new MutationObserver(watchForGenderContainer);
 
-initialObserver.observe(document.body, { childList: true })
+const enabled: boolean = localStorage.getItem(enabledStorageKey) !== 'false';
+
+if (enabled) {
+	initialObserver.observe(document.body, { childList: true })
+};

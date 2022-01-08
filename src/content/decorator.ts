@@ -1,4 +1,4 @@
-import { getLabelOps } from '../label-ops';
+import getLabelOps from '../utils/get-label-ops';
 
 const labelOps = getLabelOps();
 const randomIndex:number = Math.round(Math.random() * (labelOps.length -1));
