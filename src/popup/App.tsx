@@ -1,6 +1,6 @@
 import { inputErrorText } from '../consts';
 import * as React from "react";
-import getLabelOps from '../utils/get-label-ops';
+import { getEnabled, getLabelOps } from '../utils/local-storage-getters';
 import {
 	Button,
 	Divider,
@@ -27,7 +27,7 @@ type AppState = {
 
 export default class App extends React.Component <{}, AppState> {
 	state: AppState = {
-    enabled: true,
+    enabled: getEnabled(),
 		labelOps: getLabelOps(),
 		newLabel: '',
     showError: false
@@ -49,7 +49,7 @@ export default class App extends React.Component <{}, AppState> {
 		event.preventDefault();
 
 		if (newLabel.length && /,/g.test(newLabel)) {
-			const [op1, op2] = newLabel.split(',');
+			const [op1, op2] = newLabel.replace(/\s*,\s*/, ',').split(',');
 			const newLabelOps = [...labelOps, [op1, op2]];
 
 			this.setState({
@@ -123,7 +123,7 @@ export default class App extends React.Component <{}, AppState> {
 
         <form
         	onSubmit={addLabelOp}
-      		style={{ padding: "0px 0px 0px 16px", marginBottom: '16px' }}
+      		style={{ padding: "0px 4px 0px 16px", marginBottom: '16px' }}
         >
       		<Input
       			fullWidth={true}
@@ -133,9 +133,9 @@ export default class App extends React.Component <{}, AppState> {
             error={showError}
       			endAdornment={
       				<InputAdornment position="end">
-      					<Button type="submit">
+      					<IconButton type="submit">
       						<Add/>
-      					</Button>
+      					</IconButton>
       				</InputAdornment>
       				}
       			/>
