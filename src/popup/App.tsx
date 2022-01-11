@@ -1,4 +1,4 @@
-import { inputErrorText } from '../consts';
+import { inputErrorText, labelOpsStorageKey, enabledStorageKey } from '../consts';
 import * as React from "react";
 import { getEnabled, getLabelOps } from '../utils/local-storage-getters';
 import {
@@ -35,12 +35,15 @@ export default class App extends React.Component <{}, AppState> {
 
 	removeLabelOp = (targetOp: string[]): void => {
 		const { state: { labelOps } } = this;
+    const newLabelOps: string[][] = labelOps.filter((op: string[]): boolean => (
+      targetOp !== op
+    ))
 
 		this.setState({
-			labelOps: labelOps.filter((op: string[]): boolean => (
-				targetOp !== op
-			))
-		})
+			labelOps: newLabelOps
+		});
+
+    localStorage.setItem(labelOpsStorageKey, JSON.stringify(newLabelOps));
 	};
 
 	addLabelOp = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -56,6 +59,8 @@ export default class App extends React.Component <{}, AppState> {
 				labelOps: newLabelOps,
 				newLabel: ''
 			});
+
+      localStorage.setItem(labelOpsStorageKey, JSON.stringify(newLabelOps));
 		} else {
       this.setState({ showError: true });
     }
@@ -72,6 +77,8 @@ export default class App extends React.Component <{}, AppState> {
     const { state: { enabled } } = this;
 
     this.setState({ enabled: !enabled });
+
+    localStorage.setItem(enabledStorageKey, String(!enabled));
   }
 
   render() {
@@ -127,6 +134,7 @@ export default class App extends React.Component <{}, AppState> {
         >
       		<Input
       			fullWidth={true}
+            inputProps={{ maxlength: '40' }}
       			placeholder="New, genders!"
       			onChange={handleNewLabelChange}
       			value={newLabel}

@@ -24,9 +24,9 @@ document.body.appendChild(mockTarget);
 
 const mockLabelOps = ['mockOp1', 'mockOp2'];
 
-jest.mock('../../src/utils/get-label-ops', () => ({
+jest.mock('../../src/utils/local-storage-getters', () => ({
 	__esModule: true,
-	default: () => ([['mockOp1', 'mockOp2']])
+	getLabelOps: () => ([['mockOp1', 'mockOp2']])
 }));
 
 beforeAll(() => {

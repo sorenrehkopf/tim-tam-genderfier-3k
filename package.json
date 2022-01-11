@@ -41,6 +41,7 @@
     "@fontsource/roboto": "^4.5.1",
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.7",
+    "@types/chrome": "^0.0.176",
     "@types/enzyme": "^3.10.11",
     "@types/material-ui": "^0.21.12",
     "@types/react": "^17.0.38",
