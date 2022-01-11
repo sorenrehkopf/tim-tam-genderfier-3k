@@ -127,7 +127,7 @@ export default class App extends React.Component <{}, AppState> {
         >
       		<Input
       			fullWidth={true}
-      			placeholder="New,Genders!"
+      			placeholder="New, genders!"
       			onChange={handleNewLabelChange}
       			value={newLabel}
             error={showError}
