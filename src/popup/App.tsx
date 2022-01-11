@@ -28,15 +28,16 @@ export type AppState = {
 export default class App extends React.Component <{}, AppState> {
 	state: AppState = {
     enabled: false,
-		labelOps: getLabelOps(),
+		labelOps: [],
 		newLabel: '',
     showError: false
 	};
 
   async componentDidMount() {
     const enabled = await getEnabled();
+    const labelOps = await getLabelOps();
 
-    this.setState({ enabled });
+    this.setState({ enabled, labelOps });
   }
 
 	removeLabelOp = (targetOp: string[]): void => {
@@ -49,7 +50,9 @@ export default class App extends React.Component <{}, AppState> {
 			labelOps: newLabelOps
 		});
 
-    localStorage.setItem(labelOpsStorageKey, JSON.stringify(newLabelOps));
+    chrome.storage.sync.set({
+      [labelOpsStorageKey]: newLabelOps
+    });
 	};
 
 	addLabelOp = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -66,7 +69,9 @@ export default class App extends React.Component <{}, AppState> {
 				newLabel: ''
 			});
 
-      localStorage.setItem(labelOpsStorageKey, JSON.stringify(newLabelOps));
+      chrome.storage.sync.set({
+        [labelOpsStorageKey]: newLabelOps
+      });
 		} else {
       this.setState({ showError: true });
     }

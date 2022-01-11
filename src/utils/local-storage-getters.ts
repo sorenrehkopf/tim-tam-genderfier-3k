@@ -1,15 +1,21 @@
 import { defaultLabelOps, enabledStorageKey, labelOpsStorageKey } from '../consts';
 
-export const getLabelOps = (): string[][] => {
-	const localStoragePairs: string = localStorage.getItem(labelOpsStorageKey);
+export const getLabelOps = async (): Promise<string[][]> => {
+	return new Promise(resolve => {
+		chrome.storage.sync.get([labelOpsStorageKey], result => {
+			const storagePairs: string[][] = result[labelOpsStorageKey];
 
-	if (!localStoragePairs) {
-		localStorage.setItem(labelOpsStorageKey, JSON.stringify(defaultLabelOps))
+			if (!storagePairs) {
+				chrome.storage.sync.set({
+					[labelOpsStorageKey]: defaultLabelOps
+				});
 
-		return defaultLabelOps
-	}
-
-	return JSON.parse(localStoragePairs);
+				resolve(defaultLabelOps)
+			} else {
+				resolve(storagePairs)
+			}
+		});
+	})
 };
 
 export const getEnabled = async (): Promise<boolean> => {

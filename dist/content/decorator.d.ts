@@ -1,1 +1,1 @@
-export declare const decorate: (target: HTMLElement) => void;
+export declare const decorate: (target: HTMLElement) => Promise<void>;
