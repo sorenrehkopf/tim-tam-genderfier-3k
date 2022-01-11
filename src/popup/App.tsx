@@ -68,7 +68,7 @@ export default class App extends React.Component <{}, AppState> {
 		});
 	};
 
-  toggleEnabled = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  toggleEnabled = (event?: React.ChangeEvent<HTMLInputElement>): void => {
     const { state: { enabled } } = this;
 
     this.setState({ enabled: !enabled });

@@ -7,6 +7,20 @@ configure({ adapter: new Adapter() });
 
 let component: ShallowWrapper<{}, {}, App>;
 
+describe('#toggleEnabled', () => {
+	beforeEach(() => {
+		component = shallow(<App />);
+	});
+
+	it('toggles the enabled value', () => {
+		const originalEnabledValue = component.state('enabled');
+
+		component.instance().toggleEnabled();
+
+		expect(component.state('enabled')).not.toEqual(originalEnabledValue);
+	})
+});
+
 describe('#removeLabelOp', () => {
 	beforeEach(() => {
 		component = shallow(<App />);
@@ -17,6 +31,50 @@ describe('#removeLabelOp', () => {
 
 		component.instance().removeLabelOp(targetOp);
 
-		expect(component.state('labelOps')).not.toContain(targetOp);
+		expect(component.state('labelOps')).not.toContainEqual(targetOp);
 	})
+});
+
+describe('#addLabelOp', () => {
+	beforeEach(() => {
+		component = shallow(<App />);
+	});
+
+	describe('when the label op is formatted correctly', () => {
+		const newLabel = "the new, label";
+		const newLabelOp = newLabel.replace(/\s*,\s*/, ',').split(',');
+
+		beforeEach(() => {
+			component.setState({ newLabel });
+		});
+
+		it('adds the new op', () => {
+			component.find('form').simulate('submit', { preventDefault: jest.fn()});
+			expect(component.state('labelOps')).toContainEqual(newLabelOp);
+		});
+
+		it('clears out the new value text', () => {
+			component.find('form').simulate('submit', { preventDefault: jest.fn()});
+			expect(component.state('newLabel')).toEqual('');
+		});
+	});
+
+	describe('when the label op is not formatted correctly', () => {
+		const newLabel = "the new label";
+
+		beforeEach(() => {
+			component.setState({ newLabel });
+		});
+
+		it('does not add the new op', () => {
+			const originalLabelOps = component.state('labelOps');
+			component.find('form').simulate('submit', { preventDefault: jest.fn()});
+			expect(component.state('labelOps')).toEqual(originalLabelOps)
+		});
+
+		it('shows the error', () => {
+			component.find('form').simulate('submit', { preventDefault: jest.fn()});
+			expect(component.state('showError')).toEqual(true);
+		});
+	});
 });
