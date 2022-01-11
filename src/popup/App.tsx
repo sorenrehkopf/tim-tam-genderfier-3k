@@ -27,11 +27,17 @@ export type AppState = {
 
 export default class App extends React.Component <{}, AppState> {
 	state: AppState = {
-    enabled: getEnabled(),
+    enabled: false,
 		labelOps: getLabelOps(),
 		newLabel: '',
     showError: false
 	};
+
+  async componentDidMount() {
+    const enabled = await getEnabled();
+
+    this.setState({ enabled });
+  }
 
 	removeLabelOp = (targetOp: string[]): void => {
 		const { state: { labelOps } } = this;
@@ -78,7 +84,9 @@ export default class App extends React.Component <{}, AppState> {
 
     this.setState({ enabled: !enabled });
 
-    localStorage.setItem(enabledStorageKey, String(!enabled));
+    chrome.storage.sync.set({
+      [enabledStorageKey]: !enabled
+    });
   }
 
   render() {

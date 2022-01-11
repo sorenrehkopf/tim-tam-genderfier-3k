@@ -14,8 +14,8 @@ export const watchForGenderContainer = ():void => {
 
 const initialObserver:MutationObserver = new MutationObserver(watchForGenderContainer);
 
-const enabled: boolean = getEnabled();
-
-if (enabled) {
-	initialObserver.observe(document.body, { childList: true })
-};
+getEnabled().then((enabled: boolean) => {
+	if (enabled) {
+		initialObserver.observe(document.body, { childList: true })
+	};
+});
