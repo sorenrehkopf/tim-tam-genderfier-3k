@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 
-type AppState = {
+export type AppState = {
   enabled: boolean,
 	labelOps: string[][],
 	newLabel: string,
