@@ -1,16 +1,24 @@
 import { defaultLabelOps, enabledStorageKey, labelOpsStorageKey } from '../../src/consts';
 import { getEnabled, getLabelOps } from '../../src/utils/local-storage-getters';
 
+const storageSetSpy: jest.SpyInstance = jest.spyOn(chrome.storage.sync, 'set');
+
+beforeEach(() => {
+	storageSetSpy.mockReset();
+});
+
 describe('getLabelOps', () => {
 	describe('when there are no ops stored already', () => {
-		it('sets the local ops in local storage', () => {
+		it('sets the local ops in local storage', async () => {
 			localStorage.removeItem(labelOpsStorageKey);
-			getLabelOps();
-			expect(localStorage.getItem(labelOpsStorageKey)).toEqual(JSON.stringify(defaultLabelOps));
+			await getLabelOps();
+			expect(storageSetSpy).toHaveBeenCalledWith({
+				[labelOpsStorageKey]: defaultLabelOps
+			});
 		});
 
-		it('returns the default ops', () => {
-			expect(getLabelOps()).toEqual(defaultLabelOps);
+		it('returns the default ops', async () => {
+			expect(await getLabelOps()).toEqual(defaultLabelOps);
 		});
 	});
 
@@ -18,43 +26,57 @@ describe('getLabelOps', () => {
 		const storedOps = [['woah', 'heay'], ['helo', 'heeeey']];
 
 		beforeEach(() => {
-			localStorage.setItem(labelOpsStorageKey, JSON.stringify(storedOps));
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({
+				[labelOpsStorageKey]: storedOps
+			});
 		});
 
-		it('returns the stored ops', () => {
-			expect(getLabelOps()).toEqual(storedOps);
+		afterAll(() => {
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({})
+		})
+
+		it('returns the stored ops', async () => {
+			expect(await getLabelOps()).toEqual(storedOps);
 		});
 	});
 });
 
 describe('getEnabled', () => {
 	describe('when there is no value stored already', () => {
-		beforeEach(() => {
-			localStorage.removeItem(enabledStorageKey);
-		});
-
-		it('returns true', () => {
-			expect(getEnabled()).toEqual(true);
+		it('returns true', async () => {
+			expect(await getEnabled()).toEqual(true);
 		});
 	});
 
-	describe('when the stored value is "true"', () => {
+	describe('when the stored value is true', () => {
 		beforeEach(() => {
-			localStorage.setItem(enabledStorageKey, 'true');
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({
+				[enabledStorageKey]: true
+			});
 		});
 
-		it('returns true', () => {
-			expect(getEnabled()).toEqual(true);
+		afterAll(() => {
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({})
+		})
+
+		it('returns true', async () => {
+			expect(await getEnabled()).toEqual(true);
 		});
 	});
 
 	describe('when the stored value is "false"', () => {
 		beforeEach(() => {
-			localStorage.setItem(enabledStorageKey, 'false');
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({
+				[enabledStorageKey]: false
+			});
 		});
 
-		it('returns false', () => {
-			expect(getEnabled()).toEqual(false);
+		afterAll(() => {
+			(chrome.storage.sync.get as any) = (targets: any, cb: any) => cb({})
+		})
+
+		it('returns false', async () => {
+			expect(await getEnabled()).toEqual(false);
 		});
 	});
 });

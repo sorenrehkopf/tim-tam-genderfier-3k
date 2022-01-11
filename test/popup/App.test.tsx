@@ -6,12 +6,16 @@ import App, { AppState } from '../../src/popup/App';
 
 configure({ adapter: new Adapter() });
 
+const storageSetSpy: jest.SpyInstance = jest.spyOn(chrome.storage.sync, 'set');;
 let component: ShallowWrapper<{}, {}, App>;
 
+beforeEach(() => {
+	component = shallow(<App />);
+});
+
 describe('#toggleEnabled', () => {
-	beforeEach(() => {
-		component = shallow(<App />);
-		localStorage.removeItem(enabledStorageKey)
+	beforeEach(async () => {
+		storageSetSpy.mockReset();
 	});
 
 	it('toggles the enabled value', () => {
@@ -24,35 +28,39 @@ describe('#toggleEnabled', () => {
 
 	it('persists the new value to local storage', () => {
 		component.instance().toggleEnabled();
-		expect(localStorage.getItem(enabledStorageKey)).toEqual(String(component.state('enabled')));
+		expect(storageSetSpy).toHaveBeenCalledTimes(1);
+		expect(storageSetSpy).toHaveBeenCalledWith({
+			[enabledStorageKey]: component.state('enabled')
+		});
 	});
 });
 
 describe('#removeLabelOp', () => {
 	beforeEach(() => {
-		component = shallow(<App />);
-		localStorage.removeItem(labelOpsStorageKey);
+		storageSetSpy.mockReset();
 	});
 
 	it('removes the targeted op', () => {
 		const [targetOp] = component.state('labelOps');
 
 		component.instance().removeLabelOp(targetOp);
-
 		expect(component.state('labelOps')).not.toContainEqual(targetOp);
 	});
 
 	it('persists the new value to localStorage', () => {
 		const [targetOp] = component.state('labelOps');
+
 		component.instance().removeLabelOp(targetOp);
-		expect(localStorage.getItem(labelOpsStorageKey)).toEqual(JSON.stringify(component.state('labelOps')));
+		expect(storageSetSpy).toHaveBeenCalledTimes(1);
+		expect(storageSetSpy).toHaveBeenCalledWith({
+			[labelOpsStorageKey]: component.state('labelOps')
+		});
 	});
 });
 
 describe('#addLabelOp', () => {
 	beforeEach(() => {
-		component = shallow(<App />);
-		localStorage.removeItem(labelOpsStorageKey);
+		storageSetSpy.mockReset();
 	});
 
 	describe('when the label op is formatted correctly', () => {
@@ -70,7 +78,10 @@ describe('#addLabelOp', () => {
 
 		it('persists the new value to localStorage', () => {
 			component.find('form').simulate('submit', { preventDefault: jest.fn()});
-			expect(localStorage.getItem(labelOpsStorageKey)).toEqual(JSON.stringify(component.state('labelOps')));
+			expect(storageSetSpy).toHaveBeenCalledTimes(1);
+			expect(storageSetSpy).toHaveBeenCalledWith({
+				[labelOpsStorageKey]: component.state('labelOps')
+			});
 		});
 
 		it('clears out the new value text', () => {
