@@ -1,5 +1,5 @@
-import { inputErrorText, labelOpsStorageKey, enabledStorageKey } from '../consts';
 import * as React from "react";
+import { inputErrorText, labelOpsStorageKey, enabledStorageKey } from '../consts';
 import { getEnabled, getLabelOps } from '../utils/local-storage-getters';
 import {
 	Button,
@@ -95,13 +95,13 @@ export default class App extends React.Component <{}, AppState> {
   }
 
   render() {
-  	const {addLabelOp,
+  	const {
+      addLabelOp,
       handleNewLabelChange,
       removeLabelOp,
       state: { enabled, labelOps, newLabel, showError },
       toggleEnabled,
     } = this;
-    const enabledLabel: string = enabled ? 'On' : 'Off';
 
     return (
       <div>
@@ -114,7 +114,7 @@ export default class App extends React.Component <{}, AppState> {
           control={
             <Switch checked={enabled} onChange={toggleEnabled} />
           }
-          label={enabledLabel}
+          label={enabled ? 'On' : 'Off'}
           style={{ margin: '8px 8px 24px' }}
         />
 
