@@ -3,6 +3,11 @@
 	"author": "sorenrehkopf",
 	"name": "Tim Tam Genderfier 3k",
 	"description": "Gender is a construct. See this reflected in your TT analytics.",
+	"icons": {
+		"16": "./assets/ttg3k_icon_16.png",
+		"48": "./assets/ttg3k_icon_48.png",
+		"128": "./assets/ttg3k_icon_128.png"
+	},
 	"version": "1.0.0",
 	"host_permissions": [
 		"https://*.tiktok.com/analytics*"
