@@ -3,7 +3,7 @@ import { findGenderContainer } from './inspector';
 import { decorate } from './decorator';
 import { getEnabled } from '../utils/local-storage-getters';
 
-export const watchForGenderContainer = ():void => {
+export const watchForGenderContainer = (): void => {
 	const genderContainer:HTMLElement = findGenderContainer();
 
 	if (genderContainer) {
@@ -14,8 +14,12 @@ export const watchForGenderContainer = ():void => {
 
 const initialObserver:MutationObserver = new MutationObserver(watchForGenderContainer);
 
-getEnabled().then((enabled: boolean) => {
-	if (enabled) {
-		initialObserver.observe(document.body, { childList: true })
-	};
-});
+export const init = (): Promise<void> => {
+	return getEnabled().then((enabled: boolean) => {
+		if (enabled) {
+			initialObserver.observe(document.body, { childList: true })
+		};
+	});
+}
+
+init();

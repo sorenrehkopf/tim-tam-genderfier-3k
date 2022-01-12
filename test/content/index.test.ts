@@ -1,10 +1,16 @@
 import { decorate } from '../../src/content/decorator';
+import { getEnabled } from '../../src/utils/local-storage-getters';
 
 const mutationObserverDisconnectMock = jest.fn();
+const mutationObserverObserveMock = jest.fn();
 
 class MutationObserverMock extends MutationObserver {
 	disconnect(): void {
 		mutationObserverDisconnectMock();
+	}
+
+	observe(element: any, ops: any): void {
+		mutationObserverObserveMock();
 	}
 }
 
@@ -23,41 +29,83 @@ jest.mock(
 		}
 	}
 )
-jest.mock('../../src/content/decorator')
+jest.mock(
+	'../../src/utils/local-storage-getters',
+	() => {
+		const mockGetEnabled = jest.fn()
+			.mockResolvedValueOnce(false)
+			.mockResolvedValueOnce(true)
+			.mockResolvedValueOnce(false)
+
+		return {
+			__esModule: true,
+			getEnabled: mockGetEnabled
+		}
+	}
+);
+jest.mock('../../src/content/decorator');
 
 let watchForGenderContainer : () => void;
+let init : () => void;
 
 beforeAll(async () => {
 	window.MutationObserver = MutationObserverMock;
 	const index = await import('../../src/content/index')
 	watchForGenderContainer = index.watchForGenderContainer;
+	init = index.init;
 })
 
-describe('when the gender container is not found', () => {
-	beforeEach(() => {
-		watchForGenderContainer();
+describe('watchForGenderContainer', () => {
+	describe('when the gender container is not found', () => {
+		beforeEach(() => {
+			watchForGenderContainer();
+		});
+
+		it('does not decorate', () => {
+			expect(decorate).not.toHaveBeenCalled()
+		});
+
+		it('disconnects the initial observer', () => {
+			expect(mutationObserverDisconnectMock).not.toHaveBeenCalled()
+		});
 	});
 
-	it('does not decorate', () => {
-		expect(decorate).not.toHaveBeenCalled()
-	});
+	describe('when the gender container is found', () => {
+		beforeEach(() => {
+			mutationObserverDisconnectMock.mockClear()
+			watchForGenderContainer();
+		});
 
-	it('disconnects the initial observer', () => {
-		expect(mutationObserverDisconnectMock).not.toHaveBeenCalled()
+		it('decorates', () => {
+			expect(decorate).toHaveBeenCalled()
+		});
+
+		it('disconnects the initial observer', () => {
+			expect(mutationObserverDisconnectMock).toHaveBeenCalled()
+		});
 	});
 });
 
-describe('when the gender container is found', () => {
-	beforeEach(() => {
-		mutationObserverDisconnectMock.mockClear()
-		watchForGenderContainer();
+describe('init', () => {
+	describe('when enabled is true', () => {
+		beforeEach(() => {
+			mutationObserverObserveMock.mockReset();
+		});
+
+		it ('observes the body', async () => {
+			await init()
+			expect(mutationObserverObserveMock).toHaveBeenCalledTimes(1);
+		});
 	});
 
-	it('decorates', () => {
-		expect(decorate).toHaveBeenCalled()
-	});
+	describe('when enabled is false', () => {
+		beforeEach(() => {
+			mutationObserverObserveMock.mockReset();
+		});
 
-	it('disconnects the initial observer', () => {
-		expect(mutationObserverDisconnectMock).toHaveBeenCalled()
+		it ('does not observe the body', async () => {
+			await init()
+			expect(mutationObserverObserveMock).toHaveBeenCalledTimes(0);
+		});
 	});
-});
+})
