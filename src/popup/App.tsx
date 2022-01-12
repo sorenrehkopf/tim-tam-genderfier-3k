@@ -147,7 +147,7 @@ export default class App extends React.Component <{}, AppState> {
         >
       		<Input
       			fullWidth={true}
-            inputProps={{ maxlength: '40' }}
+            inputProps={{ maxLength: '40' }}
       			placeholder="New, genders!"
       			onChange={handleNewLabelChange}
       			value={newLabel}
