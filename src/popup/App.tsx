@@ -131,6 +131,7 @@ export default class App extends React.Component <{}, AppState> {
                   edge="end"
                   aria-label="delete"
                   onClick={(): void => removeLabelOp(op)}
+                  disabled={labelOps.length === 1}
                 >
           				<Delete/>
           			</IconButton>
