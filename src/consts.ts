@@ -6,7 +6,8 @@ export const defaultLabelOps: string[][] = [
 	['Gender is a construct', 'Hail Satan'],
 	['Be Gay', 'Do Crime'],
 	['Not a phase', 'MOM'],
-	['Humans', 'Also Humans'],
+	['Audacity', 'Spite'],
+	['Luck', 'Skill'],
 	['Chemical', 'Romance'],
 ];
 
