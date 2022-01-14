@@ -14,12 +14,12 @@ export const watchForGenderContainer = (): void => {
 
 const initialObserver:MutationObserver = new MutationObserver(watchForGenderContainer);
 
-export const init = (): Promise<void> => {
-	return getEnabled().then((enabled: boolean) => {
+export const init = (): Promise<void> => getEnabled().then(
+	(enabled: boolean) => {
 		if (enabled) {
 			initialObserver.observe(document.body, { childList: true })
 		};
-	});
-}
+	}
+);
 
 init();

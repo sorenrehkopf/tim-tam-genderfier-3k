@@ -40,21 +40,6 @@ export default class App extends React.Component <{}, AppState> {
     this.setState({ enabled, labelOps });
   }
 
-	removeLabelOp = (targetOp: string[]): void => {
-		const { state: { labelOps } } = this;
-    const newLabelOps: string[][] = labelOps.filter((op: string[]): boolean => (
-      targetOp !== op
-    ))
-
-		this.setState({
-			labelOps: newLabelOps
-		});
-
-    chrome.storage.sync.set({
-      [labelOpsStorageKey]: newLabelOps
-    });
-	};
-
 	addLabelOp = (event: React.FormEvent<HTMLFormElement>): void => {
 		const { state: { newLabel, labelOps } } = this;
 
@@ -82,6 +67,21 @@ export default class App extends React.Component <{}, AppState> {
 			newLabel: event.target.value,
       showError: false
 		});
+	};
+
+	removeLabelOp = (targetOp: string[]): void => {
+		const { state: { labelOps } } = this;
+    const newLabelOps: string[][] = labelOps.filter((op: string[]): boolean => (
+      targetOp !== op
+    ))
+
+		this.setState({
+			labelOps: newLabelOps
+		});
+
+    chrome.storage.sync.set({
+      [labelOpsStorageKey]: newLabelOps
+    });
 	};
 
   toggleEnabled = (event?: React.ChangeEvent<HTMLInputElement>): void => {
