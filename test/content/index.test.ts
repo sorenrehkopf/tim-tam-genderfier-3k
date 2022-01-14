@@ -5,10 +5,6 @@ const mutationObserverDisconnectMock = jest.fn();
 const mutationObserverObserveMock = jest.fn();
 
 class MutationObserverMock extends MutationObserver {
-	disconnect(): void {
-		mutationObserverDisconnectMock();
-	}
-
 	observe(element: any, ops: any): void {
 		mutationObserverObserveMock();
 	}
@@ -19,8 +15,6 @@ jest.mock(
 	() => {
 		const mockFindGenderContainer = jest.fn()
 			.mockReturnValueOnce(null)
-			.mockReturnValueOnce(null)
-			.mockReturnValueOnce(document.createElement('div'))
 			.mockReturnValueOnce(document.createElement('div'))
 
 		return {
@@ -64,24 +58,15 @@ describe('watchForGenderContainer', () => {
 		it('does not decorate', () => {
 			expect(decorate).not.toHaveBeenCalled()
 		});
-
-		it('disconnects the initial observer', () => {
-			expect(mutationObserverDisconnectMock).not.toHaveBeenCalled()
-		});
 	});
 
 	describe('when the gender container is found', () => {
 		beforeEach(() => {
-			mutationObserverDisconnectMock.mockClear()
 			watchForGenderContainer();
 		});
 
 		it('decorates', () => {
 			expect(decorate).toHaveBeenCalled()
-		});
-
-		it('disconnects the initial observer', () => {
-			expect(mutationObserverDisconnectMock).toHaveBeenCalled()
 		});
 	});
 });

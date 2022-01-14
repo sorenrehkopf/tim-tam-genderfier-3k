@@ -7,7 +7,6 @@ export const watchForGenderContainer = (): void => {
 	const genderContainer:HTMLElement = findGenderContainer();
 
 	if (genderContainer) {
-		initialObserver.disconnect();
 		decorate(genderContainer);
 	}
 }
