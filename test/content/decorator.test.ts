@@ -29,17 +29,38 @@ jest.mock('../../src/utils/local-storage-getters', () => ({
 	getLabelOps: () => ([['mockOp1', 'mockOp2']])
 }));
 
-beforeAll(() => {
-	label1.innerText = "";
-	label2.innerText = "";
-	decorate(mockTarget);
-})
+describe('when the labels are undecorated', () => {
+	beforeEach(() => {
+		label1.innerText = "Male";
+		label2.innerText = "Female";
+		decorate(mockTarget);
+	})
 
 
-it('replaces the text for the first item with the first labelOP', () => {
-	expect(label1.innerText).toEqual(mockLabelOps[0])
+	it('replaces the text for the first item with the first labelOP', () => {
+		expect(label1.innerText).toEqual(mockLabelOps[0])
+	});
+
+	it('replaces the text for the second item with the second labelOP', () => {
+		expect(label2.innerText).toEqual(mockLabelOps[1])
+	});
 });
 
-it('replaces the text for the second item with the second labelOP', () => {
-	expect(label2.innerText).toEqual(mockLabelOps[1])
+describe('when the labels are decorated', () => {
+	const decoratedText: string[] = ["Decorated", "Text"]
+
+	beforeEach(() => {
+		label1.innerText = decoratedText[0];
+		label2.innerText = decoratedText[1];
+		decorate(mockTarget);
+	})
+
+
+	it('does not alter the first label text', () => {
+		expect(label1.innerText).toEqual(decoratedText[0])
+	});
+
+	it('does not alter the first label text', () => {
+		expect(label2.innerText).toEqual(decoratedText[1])
+	});
 });
